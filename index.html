@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To Do List</title>
+  <link rel="stylesheet" href="css/all.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.14/vue.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue-dnd-zone"></script> -->
+</head>
+
+<body>
+  <div id="app">
+    <h1 class="title">To Do List</h1>
+    <form>
+      <div class="inputArea">
+        <input class="inputDesk" type="text" name="desk" id="desk" placeholder="請輸入代辦事項" v-model="newDesk">
+        <button class="btnAddDesk" @click.prevent="addDesk">加入</button>
+      </div>
+    </form>
+    <section class="container">
+      <p v-if="desks.length === 0">加入代辦事項</p>
+      <template v-else>
+        <h2>代辦事項</h2>
+        <ul class="deskArea" @drop="drop($event,1)" @dragenter.prevent @dragover.prevent>
+          <li v-for="(desk,index) in desks" draggable="true" @dragstart="drag($event, index)">
+            {{ desk.item }}
+            <div>
+              <button class="btnFinishDesk" @click.prevent="finishDesk(desk,index)">完成</button>
+              <button class="btnDeleteDesk" @click.prevent="deleteDesk(index)">移除</button>
+            </div>
+          </li>
+        </ul>
+      </template>
+    </section>
+
+    <section class="container finishArea" v-if="finishedDesks.length!==0">
+      <h2>已完成的事項</h2>
+      <ul class="deskArea finishDeskArea" @drop="drop($event,2)" @dragenter.prevent @dragover.prevent>
+        <li v-for="(desk,index) in finishedDesks">
+          {{ desk }}
+          <button class="btnDeleteDesk" @click.prevent="deleteFinishDesk(index)">移除</button>
+        </li>
+      </ul>
+    </section>
+
+
+  </div>
+
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        desks: [],
+        finishedDesks: [],
+        newDesk: '',
+        finishedDesk: ''
+      },
+      methods: {
+        addDesk() {
+          this.desks.unshift(
+            {
+              id: this.desks.length,
+              item: this.newDesk
+            }
+          );
+          this.newDesk = ''
+        },
+        deleteDesk(index) {
+          this.desks.splice(index, 1);
+        },
+        finishDesk(item, index) {
+          this.desks.splice(index, 1)
+          this.finishedDesk = item;
+          this.finishedDesks.push(this.finishedDesk)
+        },
+        deleteFinishDesk(index) {
+          this.finishedDesks.splice(index, 1)
+        },
+        drag(e, item) {
+          console.log(e);
+          console.log(item);
+          e.dataTransfer.dropEffect = 'move';
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('itemID', item.id)
+        },
+        drop(e, list) {
+          console.log(e)
+          let itemID = e.dataTransfer.getData('itemID');
+          let item = e.dataTransfer.items.value.find((item) => {
+            item.id == itemID
+          })
+          item.list = list;
+          console.log(list);
+        }
+      },
+      setup() {
+        const startDragOne = (e, item) => {
+          console.log(item);
+          e.dataTransfer.dropEffect = 'move';
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('itemID', item)
+        }
+        return {
+          startDragOne,
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

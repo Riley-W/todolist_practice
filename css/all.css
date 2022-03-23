@@ -1,0 +1,101 @@
+/* html,body{
+  height: 100%;
+} */
+*,*::before,*::after{
+  margin: 0;
+  padding: 0;
+}
+body{
+  font-family: 'Microsoft JhengHei';
+  font-size: 18px;
+  padding: 20px;
+}
+
+.title{
+  margin: 20px 0;
+  text-align: center;
+}
+
+.container{
+  max-width: 500px;
+  max-height: 300px;
+  overflow:auto;
+  margin: 20px auto;
+  padding: 10px 20px;
+  text-align: center;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+}
+
+.finishArea{
+  background-color: lightgoldenrodyellow;
+}
+
+.inputArea{
+  display: flex;
+  justify-content: center;
+}
+
+.inputDesk{
+  outline: none;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-right: 10px;
+}
+
+button{
+  padding: 4px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+button:hover{
+  cursor: pointer;
+  opacity: .8;
+  transition: all .3s;
+}
+
+.btnAddDesk{
+  background-color:lightgray;
+}
+.btnDeleteDesk{
+  background-color:#fff;
+  border: 1px solid lightcoral;
+  color:lightcoral;
+}
+.btnDeleteDesk:hover{
+  background: lightcoral;
+  color:#fff
+}
+.btnFinishDesk{
+  background-color:lightblue;
+  border: 1px solid lightblue;
+}
+
+.deskArea{
+  list-style: none;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.deskArea > li{
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  border-bottom: 1px solid #ddd;
+}
+
+.deskArea > li:hover{
+  background-color: #ddd;
+  transition: all .3s;
+}
+
+.finishDeskArea>li:hover{
+  background-color:gold ;
+}
+
+.deskText{
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 10px;
+}
