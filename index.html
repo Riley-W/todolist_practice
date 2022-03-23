@@ -24,8 +24,8 @@
       <p v-if="desks.length === 0">加入代辦事項</p>
       <template v-else>
         <h2>代辦事項</h2>
-        <ul class="deskArea" @drop="drop($event,1)" @dragenter.prevent @dragover.prevent>
-          <li v-for="(desk,index) in desks" draggable="true" @dragstart="drag($event, index)">
+        <ul class="deskArea">
+          <li v-for="(desk,index) in desks">
             {{ desk.item }}
             <div>
               <button class="btnFinishDesk" @click.prevent="finishDesk(desk,index)">完成</button>
@@ -38,9 +38,9 @@
 
     <section class="container finishArea" v-if="finishedDesks.length!==0">
       <h2>已完成的事項</h2>
-      <ul class="deskArea finishDeskArea" @drop="drop($event,2)" @dragenter.prevent @dragover.prevent>
+      <ul class="deskArea finishDeskArea">
         <li v-for="(desk,index) in finishedDesks">
-          {{ desk }}
+          {{ desk.item }}
           <button class="btnDeleteDesk" @click.prevent="deleteFinishDesk(index)">移除</button>
         </li>
       </ul>
@@ -80,34 +80,7 @@
         deleteFinishDesk(index) {
           this.finishedDesks.splice(index, 1)
         },
-        drag(e, item) {
-          console.log(e);
-          console.log(item);
-          e.dataTransfer.dropEffect = 'move';
-          e.dataTransfer.effectAllowed = 'move';
-          e.dataTransfer.setData('itemID', item.id)
-        },
-        drop(e, list) {
-          console.log(e)
-          let itemID = e.dataTransfer.getData('itemID');
-          let item = e.dataTransfer.items.value.find((item) => {
-            item.id == itemID
-          })
-          item.list = list;
-          console.log(list);
-        }
       },
-      setup() {
-        const startDragOne = (e, item) => {
-          console.log(item);
-          e.dataTransfer.dropEffect = 'move';
-          e.dataTransfer.effectAllowed = 'move';
-          e.dataTransfer.setData('itemID', item)
-        }
-        return {
-          startDragOne,
-        }
-      }
     })
   </script>
 </body>
